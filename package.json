@@ -1,0 +1,46 @@
+{
+  "name": "react-color-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack --watch & webpack-dev-server",
+    "gh-pages": "webpack",
+    "precommit": "yarn test",
+    "build": "babel src -d lib",
+    "test": "eslint src && flow && jest",
+    "eslint": "eslint src",
+    "flow": "flow",
+    "jest": "jest --watch"
+  },
+  "dependencies": {
+    "font-awesome": "4.7.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.25.0",
+    "babel-eslint": "7.2.3",
+    "babel-jest": "20.0.3",
+    "babel-loader": "7.0.0",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1",
+    "css-loader": "0.26.2",
+    "eslint": "4.3.0",
+    "eslint-plugin-flowtype": "2.42.0",
+    "eslint-plugin-jest": "21.15.0",
+    "eslint-plugin-react": "7.7.0",
+    "file-loader": "0.10.1",
+    "flow-bin": "0.68.0",
+    "husky": "0.14.3",
+    "jest": "22.2.2",
+    "node-sass": "4.5.1",
+    "sass-loader": "6.0.3",
+    "style-loader": "0.13.2",
+    "url-loader": "0.5.8",
+    "webpack": "3.6.0",
+    "webpack-dev-server": "2.9.1"
+  }
+}
