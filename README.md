@@ -9,3 +9,8 @@ Start development
 ```
 yarn start
 ```
+
+Build
+```
+yarn build
+```
