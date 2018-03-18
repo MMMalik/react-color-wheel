@@ -2,3 +2,128 @@ html,
 body {
     height: 100%;
 }
+
+// https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+
+// General
+
+$thumb-width: 20px;
+$thumb-height: 20px;
+$thumb-bg: #ffffff;
+$thumb-radius: 1px;
+$thumb-top-offset: -3.5px;
+$thumb-box: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+
+$track-height: 15px;
+$track-box: $thumb-box !default;
+$track-radius: 1.3px;
+$track-border: 0.2px solid #010101;
+
+$hex: (
+    r: ( MIN: #000000, MAX: #ff0000 ),
+    g: ( MIN: #000000, MAX: #00ff00 ),
+    b: ( MIN: #000000, MAX: #0000ff )
+);
+
+input.color-picker {
+    margin-top: 5px;
+}
+
+input[type=range].color-picker {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range].color-picker:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range].color-picker::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+// Thumb
+
+/* Special styling for WebKit/Blink */
+input[type=range].color-picker::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: $thumb-height;
+    width: $thumb-width;
+    border-radius: $thumb-radius;
+    background: $thumb-bg;
+    cursor: pointer;
+    margin-top: $thumb-top-offset; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    box-shadow: $thumb-box; /* Add cool effects to your sliders! */
+}
+
+/* All the same stuff for Firefox */
+input[type=range].color-picker::-moz-range-thumb {
+    box-shadow: $thumb-box;
+    height: $thumb-height;
+    width: $thumb-width;
+    border-radius: $thumb-radius;
+    background: $thumb-bg;
+    cursor: pointer;
+}
+
+// Track
+
+@each $color, $values in $hex {
+    input[type=range].color-picker.color-picker-#{$color}::-webkit-slider-runnable-track {
+        width: 100%;
+        height: $track-height;
+        cursor: pointer;
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+        border-radius: $track-radius;
+        border: $track-border;
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}:focus::-webkit-slider-runnable-track {
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}::-moz-range-track {
+        width: 100%;
+        height: $track-height;
+        cursor: pointer;
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+        border-radius: $track-radius;
+        border: $track-border;
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}::-ms-track {
+        width: 100%;
+        height: $track-height;
+        cursor: pointer;
+        background: transparent;
+        border-color: transparent;
+        border-width: 16px 0;
+        color: transparent;
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}::-ms-fill-lower {
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+        border: $track-border;
+        border-radius: $track-radius;
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}:focus::-ms-fill-lower {
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}::-ms-fill-upper {
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+        border: $track-border;
+        border-radius: $track-radius;
+    }
+
+    input[type=range].color-picker.color-picker-#{$color}:focus::-ms-fill-upper {
+        background: linear-gradient(to right, map-get($values, MIN), map-get($values, MAX));
+    }
+}

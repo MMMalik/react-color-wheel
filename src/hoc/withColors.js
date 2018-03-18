@@ -1,8 +1,9 @@
 // @flow
 
 import type {
-    Hex,
+    HexValue,
     HexValues,
+    HexInfo,
     Rgb,
     RgbValues,
     ParsedRgb
@@ -13,6 +14,8 @@ import * as React from 'react';
 type MixFn = (S: Rgb) => ParsedRgb;
 
 type RgbFn = (S: Rgb) => RgbValues;
+
+type InitHex = (S: HexValue) => HexValue;
 
 type SetColor = (S: Rgb) => void => void;
 
@@ -31,16 +34,19 @@ export type ColorUtils = {
     setColor: SetColor
 };
 
-export const INIT_HEX_VALUE: Hex = '00';
+export const INIT_HEX_VALUE: HexValue = '00';
 
-export const HEX: Array<Hex> =
+export const INIT_HEX_INFO: HexInfo = { value: INIT_HEX_VALUE, i: 0 };
+
+export const HEX: HexValues =
     [...Array(256).keys()]
         .map(n => n.toString(16))
         .map(n => n.length < 2 ? '0' + n : n);
 
-export const initHex = (c: Hex): Hex => c ? c : INIT_HEX_VALUE;
+export const initHex: InitHex = c => c ? c : INIT_HEX_VALUE;
 
-export const mix: MixFn = ({ r, g, b }) => `#${initHex(r)}${initHex(g)}${initHex(b)}`;
+export const mix: MixFn = ({ r, g, b }) =>
+    `#${initHex(r && r.value)}${initHex(g && g.value)}${initHex(b && b.value)}`;
 
 export const rgb: RgbFn = ({ r, g, b }) => ({ r, g, b, rgb: mix({ r, g, b }) });
 
@@ -52,7 +58,11 @@ export default (): (React.ComponentType<any> => React.ComponentType<any>) => (
             };
 
             state = {
-                rgb: rgb({ r: INIT_HEX_VALUE, g: INIT_HEX_VALUE, b: INIT_HEX_VALUE })
+                rgb: rgb({
+                    r: INIT_HEX_INFO,
+                    g: INIT_HEX_INFO,
+                    b: INIT_HEX_INFO
+                })
             };
 
             setColor: SetColor = ({ r, g, b }) =>

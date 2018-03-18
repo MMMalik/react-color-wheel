@@ -1,11 +1,16 @@
-export type Hex = string;
+export type HexValue = string;
 
-export type HexValues = Array<Hex>;
+export type HexValues = Array<HexValue>;
+
+export type HexInfo = {
+    value: HexValue,
+    i: number
+};
 
 export type Rgb = {
-    r?: Hex,
-    g?: Hex,
-    b?: Hex
+    r?: HexInfo,
+    g?: HexInfo,
+    b?: HexInfo
 };
 
 export type ParsedRgb = string;

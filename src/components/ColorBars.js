@@ -1,44 +1,38 @@
 // @flow
 
 import type { Colors } from '../hoc';
-import type { Hex } from '../types';
+import type { HexValue } from '../types';
 
 import * as React from 'react';
 import withColors from '../hoc';
 
-type Props = {
-    colors: Colors,
-    barHeight: string
-};
+type Props = { colors: Colors };
 
 class ColorBars extends React.Component<Props> {
-    static defaultProps = {
-        barHeight: '15px'
-    };
+    handleChange = (c: HexValue) =>
+        event => {
+            const { colors: { setColor, HEX } } = this.props;
+            setColor({ [c]: { value: HEX[event.target.value], i: event.target.value } })();
+        };
 
-    bar = (c: Hex) => {
-        const { colors, barHeight } = this.props;
+    _bar = (c: HexValue) => {
+        const { colors: { HEX, mix, rgb } } = this.props;
 
         return (
-            <div>
-                {colors.HEX.map(val => (
-                    <div
-                        key={`${c}${val}`}
-                        onClick={colors.setColor({ [c]: val })}
-                        style={{
-                            display: 'inline-block',
-                            width: `${100 / colors.HEX.length}%`,
-                            height: barHeight,
-                            backgroundColor: colors.mix({ [c]: val })
-                        }}
-                    />
-                ))}
-            </div>
+            <input
+                title={mix({ [c]: { ...rgb[c] } })}
+                className={`color-picker color-picker-${c}`}
+                onChange={this.handleChange(c)}
+                type="range"
+                min={0}
+                max={HEX.length - 1}
+                value={rgb[c].i}
+            />
         );
-    };
+    }
 
     result = () => {
-        const { colors } = this.props;
+        const { colors: { rgb } } = this.props;
 
         return (
             <React.Fragment>
@@ -46,10 +40,10 @@ class ColorBars extends React.Component<Props> {
                     style={{
                         width: '100px',
                         height: '100px',
-                        backgroundColor: colors.rgb.rgb
+                        backgroundColor: rgb.rgb
                     }}
                 />
-                <div>{`hex: ${colors.rgb.rgb}`}</div>
+                <div>{`hex: ${rgb.rgb}`}</div>
             </React.Fragment>
         );
     };
@@ -58,9 +52,9 @@ class ColorBars extends React.Component<Props> {
         return (
             <React.Fragment>
                 {this.result()}
-                {this.bar('r')}
-                {this.bar('g')}
-                {this.bar('b')}
+                {this._bar('r')}
+                {this._bar('g')}
+                {this._bar('b')}
             </React.Fragment>
         );
     }

@@ -15,7 +15,14 @@ describe('hex colors', () => {
     });
 
     test('mix - mix rgb values', () => {
-        expect(mix({ r: 'ff', g: 'ff' })).toEqual('#ffff00');
-        expect(mix({ r: 'ff', g: 'ff', b: 'aa' })).toEqual('#ffffaa');
+        expect(mix({
+            r: { value: 'ff' },
+            g: { value: 'ff' }
+        })).toEqual('#ffff00');
+        expect(mix({
+            r: { value: 'ff' },
+            g: { value: 'ff' },
+            b: { value: 'aa' }
+        })).toEqual('#ffffaa');
     });
 });
